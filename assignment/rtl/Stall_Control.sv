@@ -38,7 +38,16 @@ module Stall_Control (
     case(ID_instr_opcode_ip) 
 
       OPCODE_OP: begin
-        
+        if (EX_instr_opcode_ip === OPCODE_LOAD) begin
+          if ((EX_reg_dest_ip !== 0) && ((EX_reg_dest_ip === ID_src1_addr_ip) || (EX_reg_dest_ip === ID_src2_addr_ip))) begin
+            stall_op = 1'b1;
+          end
+        end
+        else if (WB_write_reg_en_ip) begin
+          if ((WB_reg_dest_ip !== 0) && ((WB_reg_dest_ip === ID_src1_addr_ip) || (WB_reg_dest_ip === ID_src2_addr_ip))) begin
+            stall_op = 1'b1;
+          end
+        end
         /**
         * Task 1
         * 
@@ -52,7 +61,16 @@ module Stall_Control (
       end
 
       OPCODE_OPIMM: begin
-
+        if (EX_instr_opcode_ip === OPCODE_LOAD) begin
+          if ((EX_reg_dest_ip !== 0) && (EX_reg_dest_ip === ID_src1_addr_ip)) begin
+            stall_op = 1'b1;
+          end
+        end
+        else if (WB_write_reg_en_ip) begin
+          if ((WB_reg_dest_ip !== 0) && (WB_reg_dest_ip === ID_src1_addr_ip)) begin
+            stall_op = 1'b1;
+          end
+        end
         /**
         * Task 1
         * 

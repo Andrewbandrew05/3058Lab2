@@ -61,12 +61,17 @@ module IF_Stage (
     if (reset == 1'b1) 
       Next_PC = 0;
     else begin
-      unique case (pc_mux_ip)
-        NEXTPC: Next_PC = pc_addr + 4;
-        ALU_RESULT: Next_PC = alu_result_valid_ip ? alu_result_ip: pc_addr; // If not valid, then stall until valid
-        default: Next_PC = pc_addr + 4;
-      endcase
-    end
+		if (stall_ip === 1'b1) begin
+			Next_PC = pc_addr;
+		end
+		else  begin
+			unique case (pc_mux_ip)
+				NEXTPC: Next_PC = pc_addr + 4;
+				ALU_RESULT: Next_PC = alu_result_valid_ip ? alu_result_ip: pc_addr; // If not valid, then stall until valid
+				default: Next_PC = pc_addr + 4;
+			endcase
+		end
+	end
   end
 
 	/*

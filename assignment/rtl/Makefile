@@ -17,5 +17,5 @@ submit: clean
 
 
 clean:
-	rm -f core_tb Core_Simulation.vcd $(TARBALL)
+	del /f core_tb Core_Simulation.vcd %TARBALL%
 
