@@ -43,11 +43,13 @@ module Stall_Control (
             stall_op = 1'b1;
           end
         end
+        /**
         else if (WB_write_reg_en_ip) begin
           if ((WB_reg_dest_ip !== 0) && ((WB_reg_dest_ip === ID_src1_addr_ip) || (WB_reg_dest_ip === ID_src2_addr_ip))) begin
             stall_op = 1'b1;
           end
         end
+        **/
         /**
         * Task 1
         * 

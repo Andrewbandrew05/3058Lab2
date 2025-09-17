@@ -15,14 +15,41 @@ module Core_tb;
 
   // Use the links above to add RISC-V instructions to the provided array in hex format.
   // Remember, these resources are may be incorrect for some instruction types, so make sure to verify them with your RISC-V greencard
+  //Basic test
+	bit [31:0] test_instructions [] = {
+        32'h00000000, // NOP (keep as first instruction for simulation to work)
+        32'hfec10493,  
+		32'h00c58533, 
+		32'h00002403, 
+		32'h40618a33, 
+		32'h01392ab3,  
+		32'h014005ef
+    };
+  //Task 1
+  /**
   bit [31:0] test_instructions [] = {
         32'h00000000, // NOP (keep as first instruction for simulation to work)
         32'h00002483,
         32'h002480b3,
-//      32'h00310093, //addi x1, x2, 3
         32'h00402403, 
         32'h006401b3  
     };
+	**/
+	//Task 2
+	/**
+	bit [31:0] test_instructions [] = {
+        32'h00000000, // NOP (keep as first instruction for simulation to work)
+        32'hffb00413,
+		32'h00500433,
+		32'h408304b3,
+		32'h00002483,
+		32'h008484b3,
+		32'h408484b3,
+		32'h00848633,
+		32'h009425b3,
+		32'h40b00133 
+    };
+	**/
 
   
   initial

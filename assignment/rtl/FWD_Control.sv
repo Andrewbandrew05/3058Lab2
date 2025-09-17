@@ -20,6 +20,9 @@ module FWD_Control (
 
   input [6:0] id_instr_opcode_ip, // ID/EX pipeline buffer opcode
 
+  input [6:0] EX_MEM_instr_opcode,
+  input [6:0] MEM_WB_instr_opcode,
+
   input write_back_mux_selector EX_MEM_wb_mux_ip,
   input write_back_mux_selector MEM_WB_wb_mux_ip,
 
@@ -28,8 +31,8 @@ module FWD_Control (
   input logic [4:0] ID_dest_rs1_ip, //Rs from decode stage
   input logic [4:0] ID_dest_rs2_ip, //Rt from decode stage
 
-  output forward_mux_code fa_mux_op, //select lines for forwarding muxes (Rs)
-  output forward_mux_code fb_mux_op  //select lines for forwarding muxes (Rt)
+  output forward_mux_code fa_mux_op, //select lines for forwarding muxes (Rs) (src reg 1)
+  output forward_mux_code fb_mux_op  //select lines for forwarding muxes (Rt) (src reg 2)
 );
 
   logic EX_MEM_RegWrite_en;
@@ -45,7 +48,22 @@ module FWD_Control (
     case (id_instr_opcode_ip)
 
       OPCODE_OP: begin // Register-Register ALU operation
-
+        if (MEM_WB_RegWrite_en === 1'b1) begin
+            if ((MEM_WB_dest_ip !== 5'b0) && (ID_dest_rs1_ip === MEM_WB_dest_ip)) begin
+              fa_mux_op = WB_RESULT_SELECT;
+            end
+            else if ((MEM_WB_dest_ip !== 5'b0) && (ID_dest_rs2_ip === MEM_WB_dest_ip)) begin
+              fb_mux_op = WB_RESULT_SELECT;
+            end
+        end
+        if (EX_MEM_RegWrite_en === 1'b1) begin
+            if ((EX_MEM_dest_ip !== 5'b0) && (ID_dest_rs1_ip === EX_MEM_dest_ip)) begin
+              fa_mux_op = EX_RESULT_SELECT;
+            end
+            else if ((EX_MEM_dest_ip !== 5'b0) && (ID_dest_rs2_ip === EX_MEM_dest_ip)) begin
+              fb_mux_op = EX_RESULT_SELECT;
+            end
+        end
         /**
         * Task 2
         * 
@@ -56,7 +74,16 @@ module FWD_Control (
       end
 
       OPCODE_OPIMM: begin // Register Immediate 
-
+        if (MEM_WB_RegWrite_en === 1'b1) begin
+          if ((MEM_WB_dest_ip !== 0'b0) && (ID_dest_rs1_ip === MEM_WB_dest_ip)) begin
+            fa_mux_op = WB_RESULT_SELECT;
+          end
+        end
+        if(EX_MEM_RegWrite_en === 1'b1) begin
+          if ((EX_MEM_dest_ip !== 1'b0) && (ID_dest_rs1_ip === EX_MEM_dest_ip)) begin
+            fa_mux_op = EX_RESULT_SELECT;
+          end
+        end
         /**
         * Task 2
         * 
