@@ -22,10 +22,18 @@ module Flush_Control (
 
   output logic flush_en
 );
-
+always_comb begin
+  if (pc_mux_ip === ALU_RESULT && alu_valid === 1'b1 && reset === 1'b0) begin
+    flush_en = 1'b1;
+  end
+  else begin
+    flush_en = 1'b0;
+  end
+end
   /*
     Task 4
     Add code for enabling a flush based on the inputs to this module
   */
+
 
 endmodule

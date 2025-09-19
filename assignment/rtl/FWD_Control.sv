@@ -52,7 +52,7 @@ module FWD_Control (
             if ((MEM_WB_dest_ip !== 5'b0) && (ID_dest_rs1_ip === MEM_WB_dest_ip)) begin
               fa_mux_op = WB_RESULT_SELECT;
             end
-            else if ((MEM_WB_dest_ip !== 5'b0) && (ID_dest_rs2_ip === MEM_WB_dest_ip)) begin
+            if ((MEM_WB_dest_ip !== 5'b0) && (ID_dest_rs2_ip === MEM_WB_dest_ip)) begin
               fb_mux_op = WB_RESULT_SELECT;
             end
         end
@@ -60,7 +60,7 @@ module FWD_Control (
             if ((EX_MEM_dest_ip !== 5'b0) && (ID_dest_rs1_ip === EX_MEM_dest_ip)) begin
               fa_mux_op = EX_RESULT_SELECT;
             end
-            else if ((EX_MEM_dest_ip !== 5'b0) && (ID_dest_rs2_ip === EX_MEM_dest_ip)) begin
+            if ((EX_MEM_dest_ip !== 5'b0) && (ID_dest_rs2_ip === EX_MEM_dest_ip)) begin
               fb_mux_op = EX_RESULT_SELECT;
             end
         end
@@ -75,12 +75,12 @@ module FWD_Control (
 
       OPCODE_OPIMM: begin // Register Immediate 
         if (MEM_WB_RegWrite_en === 1'b1) begin
-          if ((MEM_WB_dest_ip !== 0'b0) && (ID_dest_rs1_ip === MEM_WB_dest_ip)) begin
+          if ((MEM_WB_dest_ip !== 5'b0) && (ID_dest_rs1_ip === MEM_WB_dest_ip)) begin
             fa_mux_op = WB_RESULT_SELECT;
           end
         end
         if(EX_MEM_RegWrite_en === 1'b1) begin
-          if ((EX_MEM_dest_ip !== 1'b0) && (ID_dest_rs1_ip === EX_MEM_dest_ip)) begin
+          if ((EX_MEM_dest_ip !== 5'b0) && (ID_dest_rs1_ip === EX_MEM_dest_ip)) begin
             fa_mux_op = EX_RESULT_SELECT;
           end
         end

@@ -114,7 +114,7 @@ module EX_Stage (
       *
       */
       WB_RESULT_SELECT : alu_operand_a = fw_wb_data;
-      EX_RESULT_SELECT : alu_operand_a = fw_wb_data;
+      EX_RESULT_SELECT : alu_operand_a = alu_result_op;
       default:  alu_operand_a = alu_operand_a_ip;
     endcase
   end
@@ -128,7 +128,7 @@ module EX_Stage (
       *
       */
       WB_RESULT_SELECT : alu_operand_b = fw_wb_data;
-      EX_RESULT_SELECT : alu_operand_b = fw_wb_data;
+      EX_RESULT_SELECT : alu_operand_b = alu_result_op;
       default: alu_operand_b = alu_operand_b_ip;
     endcase
   end

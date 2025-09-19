@@ -239,7 +239,7 @@ module ID_Stage (
 
   // ID_EX Pipeline Buffer
   always_ff @(posedge clock) begin
-    if ((stall_op == 1'b1) | (reset == 1'b1)) begin
+    if ((stall_op == 1'b1) | (reset == 1'b1) | (flush_en == 1'b1)) begin
       // Instructions to send to EX Stage
       alu_en_op <= 0;
       alu_operator_op <= ALU_NOP;

@@ -61,7 +61,7 @@ module IF_Stage (
     if (reset == 1'b1) 
       Next_PC = 0;
     else begin
-		if (stall_ip === 1'b1) begin
+		if (stall_ip === 1'b1  && flush_en !== 1'b1) begin
 			Next_PC = pc_addr;
 		end
 		else  begin
@@ -80,7 +80,7 @@ module IF_Stage (
 	* Task 4 - What needs to happen to these registers when flush is enabled?
 	*/ 
 	always_ff @(posedge clock) begin
-		if ((reset == 1'b1)) begin
+		if ((reset == 1'b1) || flush_en == 1'b1) begin
 			instr_valid_op <= 0;
 			instr_data_op <= 0;
 			instr_pc_addr_op <= 0;
